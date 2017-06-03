@@ -7,7 +7,7 @@ filetype off                  " required
 	"set rtp+=~/.vim/bundle/Vundle.vim
 "endif
 
-set rtp+=~/.config/nvim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " alternatively, pass a path where Vundle should install plugins
