@@ -121,6 +121,8 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'Shougo/vimproc'
 Plugin 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
+Plugin 'tpope/vim-fugitive'
+Plugin 'yssl/QFEnter'
 
 Bundle "icholy/typescript-tools.git"
 au BufRead,BufNewFile *.ts  setlocal filetype=typescript
@@ -203,6 +205,9 @@ cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g>  <C-c>
 
+"nnoremap <leader>code :!code %<CR> 
+command! Code !code %
+
 nnoremap <F12>f :exe ':silent !open -a /Applications/Firefox.app %'<CR>
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 nnoremap <F12>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
@@ -229,10 +234,18 @@ nnoremap <leader>deb :!debug %<Enter>
 nnoremap <leader>s :noh<Enter>
 nnoremap <leader>num :set number!<Enter>
 
-nnoremap <leader>def :TsuquyomiDefinition<Enter>
-nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
-nnoremap <leader>ref :TsuReferences<Enter>
-nnoremap <leader>er :TsuGeterr<Enter>
+if has("nvim")
+"Tsuqyuomi commands need to be duplicated to work in neovim"
+  nnoremap <leader>def :TsuquyomiDefinition<Enter>:TsuquyomiDefinition<Enter>
+  nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>:TsuquyomiSignatureHelp<Enter>
+  nnoremap <leader>ref :TsuReferences<Enter>:TsuReferences<Enter>
+  nnoremap <leader>er :TsuGeterr<Enter>:TsuGeterr<Enter>
+else
+  nnoremap <leader>def :TsuquyomiDefinition<Enter>
+  nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
+  nnoremap <leader>ref :TsuReferences<Enter>
+  nnoremap <leader>er :TsuGeterr<Enter>
+endif
 
 nnoremap <leader>qf :cclose<Enter>
 nnoremap <leader>of :copen<Enter>
@@ -253,6 +266,12 @@ nmap <up>    :3wincmd -<cr>
 nmap <down>  :3wincmd +<cr>
 
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+autocmd QuickFixCmdPost *grep* cwindow
+let g:EasyGrepOpenWindowOnMatch=0
+cabbrev grep grep!
+cabbrev Ggrep Ggrep!
+cabbrev gp Ggrep!
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
