@@ -1,0 +1,11 @@
+git clone https://github.com/alexgunning/dotfiles.git
+sudo apt install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+ln -s ~/dotfiles/.zshrc ~/.zshrc
+rm ~/.zshrc
+ln -s ~/dotfiles/.zshrc ~/.zshrc
+ln -s ~/dotfiles/alex-pygmalion.zsh-theme ~/.oh-my-zsh/themes/alex-pygmalion.zsh-theme
+source ~/.zshrc
+ln -s ~/dotfiles/.vimrc ~/.vimrc
+git config --global user.email "alexandergunning@gmail.com"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
