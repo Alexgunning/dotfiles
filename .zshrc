@@ -87,10 +87,10 @@ source $ZSH/oh-my-zsh.sh
 alias ls="ls -Gp"
 #alias vi="nvim"
 #alias vim="nvim"
-alias vi="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
-alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+#alias vi="/Applications/MacVim.app/Contents/MacOS/Vim"
+#alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+#alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+#alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 alias python="python3"
 alias z="vi ~/.zshrc"
 alias sz="source ~/.zshrc"
