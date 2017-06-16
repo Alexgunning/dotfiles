@@ -30,6 +30,7 @@ vnoremap jk <ESC>
 set nu
 set showcmd
 set wrap!
+set list
 
 let g:ycm_server_python_interpreter = '/usr/local/bin/python'
 
@@ -123,6 +124,8 @@ Plugin 'Shougo/vimproc'
 Plugin 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
 Plugin 'tpope/vim-fugitive'
 Plugin 'yssl/QFEnter'
+Plugin 'easymotion/vim-easymotion'
+
 
 Bundle "icholy/typescript-tools.git"
 au BufRead,BufNewFile *.ts  setlocal filetype=typescript
@@ -140,8 +143,12 @@ let g:ycm_semantic_triggers['typescript'] = ['.']
 "set completeopt-=preview
 autocmd FileType typescript setlocal completeopt+=menu,preview
 
-"let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
-let g:syntastic_typescript_checkers = ['tsuquyomi']
+let g:syntastic_aggregate_errors = 1
+"let g:syntastic_typescript_tslint_args = "--config /Users/cfsagunning/ronin_server_node/tslint.json"
+let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
+"let g:syntastic_typescript_checkers = ['tsuquyomi']
+"let g:syntastic_debug = 3
+"let g:syntastic_typescript_checkers = ['tslint']
 let g:syntastic_typescript_tsc_args = '--target ES6 --noEmit'
 let g:syntastic_check_on_open = 1
 let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
@@ -160,7 +167,6 @@ let g:tsuquyomi_completion_preview = 1
 
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_definition_split = 2
-
 
 let g:dash_map = {'typescript' : 'javascript'}
 
@@ -206,7 +212,8 @@ cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g>  <C-c>
 
 "nnoremap <leader>code :!code %<CR> 
-command! Code !code %
+"command! Code !code %:line(".")
+command! Code execute '!code -g %:' . line('.')
 
 nnoremap <F12>f :exe ':silent !open -a /Applications/Firefox.app %'<CR>
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
@@ -240,11 +247,13 @@ if has("nvim")
   nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>:TsuquyomiSignatureHelp<Enter>
   nnoremap <leader>ref :TsuReferences<Enter>:TsuReferences<Enter>
   nnoremap <leader>er :TsuGeterr<Enter>:TsuGeterr<Enter>
+  autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
 else
   nnoremap <leader>def :TsuquyomiDefinition<Enter>
   nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
   nnoremap <leader>ref :TsuReferences<Enter>
   nnoremap <leader>er :TsuGeterr<Enter>
+  autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 endif
 
 nnoremap <leader>qf :cclose<Enter>
@@ -264,6 +273,11 @@ nmap <left>  :3wincmd ><cr>
 nmap <right> :3wincmd <<cr>
 nmap <up>    :3wincmd -<cr>
 nmap <down>  :3wincmd +<cr>
+
+iabbrev mk //alex mark
+command! Code !code %
+command! Mk Ggrep! "//alex mark"
+
 
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd QuickFixCmdPost *grep* cwindow

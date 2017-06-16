@@ -4,8 +4,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
+# Set name of the theme to load. Optionally, if you set this to "random" # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="alex-pygmalion"
 
@@ -87,15 +86,21 @@ source $ZSH/oh-my-zsh.sh
 alias ls="ls -Gp"
 #alias vi="nvim"
 #alias vim="nvim"
-#alias vi="/Applications/MacVim.app/Contents/MacOS/Vim"
-#alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-#alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
-#alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+alias vi="nvim"
+alias vim="nvim"
+alias vimr="/Applications/MacVim.app/Contents/MacOS/Vim"
+alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 alias python="python3"
 alias z="vi ~/.zshrc"
 alias sz="source ~/.zshrc"
 alias s="git status"
 alias k="gitk --all&"
+alias gh="grep_history"
+alias drop="mongo RoninServer --eval 'db.dropDatabase()'"
+alias load="mongorestore -d RoninServer --archive=/Users/cfsagunning/dbs/RoninServer.Devnode.2017-06-06.5pm.gz"
+alias reload="mongo RoninServer --eval 'db.dropDatabase()'; mongorestore -d RoninServer --archive=/Users/cfsagunning/dbs/RoninServer.Devnode.2017-06-06.5pm.gz"
+
 
 #source ~/prefs/git-completion.bash
 
