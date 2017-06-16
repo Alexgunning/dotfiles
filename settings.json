@@ -11,10 +11,76 @@
       ]
     }
   ],
+  "vim.otherModesKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "s"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": ":nohl"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "r"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "editor.action.rename"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "editor.action.openDeclarationToTheSide"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "<leader>",
+        "d"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "editor.action.goToDeclaration"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "editor.action.goToTypeDefintion"
+        }
+      ]
+    }
+  ],
+  "vim.useCtrlKeys": true,
   "vim.disableAnnoyingNeovimMessage": true,
-  "vim.enableNeovim": true,
+  "vim.enableNeovim": false,
   "vim.neovimPath": "/usr/local/bin/nvim",
   "vim.statusBarColorControl": true,
+  "vim.useSystemClipboard": false,
+  "vim.hlsearch": true,
   "vim.statusBarColors": {
     "normal": "#005f5f",
     "insert": "#5f0000",
@@ -36,5 +102,8 @@
     "statusBar.noFolderBackground": "#005f5f",
     "statusBar.debuggingBackground": "#005f5f"
   },
-  "workbench.colorTheme": "Atom One Dark"
+  "workbench.colorTheme": "Atom One Dark",
+  "vim.disableAnnoyingGcMessage": true,
+  "editor.minimap.enabled": false
+  // "debugToolBar.background": "#5f0000"
 }
