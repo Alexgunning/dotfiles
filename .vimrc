@@ -36,12 +36,12 @@ let g:ycm_server_python_interpreter = '/usr/local/bin/python'
 
 " TODO try changing commneting to saving place go start of line text remove
 " FIX the calling of the commands seems to work fine when executed from
-" command line 
+" command line
 " might not work well woth multiple lines but be nice in normal mode
 " Vimscript file settings ---------------------- {{{
 augroup filetype_vim
 autocmd!
-autocmd FileType vim setlocal foldmethod=marker 
+autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
 
@@ -59,7 +59,7 @@ set foldlevel=99
 nnoremap <space> za
 
 inoremap <C-U> <ESC>viwUea
-nnoremap <C-U> <ESC>viwUe
+"nnoremap <C-U> <ESC>viwUe
 
 nnoremap <leader>av :edit $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -73,14 +73,12 @@ iabbrev teh the
 if has("nvim")
 Plugin 'Shougo/deoplete.nvim'
 "One of these causes startup errors
-"   Plugin 'carlitux/deoplete-ternjs'
-"   Plugin 'mhartington/deoplete-typescript'
-call deoplete#enable()
+
 let g:deoplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
-"TO DISABLE AUTOCOMPLETE 
+"TO DISABLE AUTOCOMPLETE
 let g:deoplete#disable_auto_complete = 1
 "autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " omnifuncs
@@ -125,6 +123,7 @@ Plugin 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
 Plugin 'tpope/vim-fugitive'
 Plugin 'yssl/QFEnter'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'ntpeters/vim-better-whitespace'
 
 
 Bundle "icholy/typescript-tools.git"
@@ -140,35 +139,29 @@ let g:ycm_semantic_triggers = {}
 endif
 let g:ycm_semantic_triggers['typescript'] = ['.']
 
-"set completeopt-=preview
 autocmd FileType typescript setlocal completeopt+=menu,preview
 
 let g:syntastic_aggregate_errors = 1
-"let g:syntastic_typescript_tslint_args = "--config /Users/cfsagunning/ronin_server_node/tslint.json"
 let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
-"let g:syntastic_typescript_checkers = ['tsuquyomi']
-"let g:syntastic_debug = 3
-"let g:syntastic_typescript_checkers = ['tslint']
 let g:syntastic_typescript_tsc_args = '--target ES6 --noEmit'
 let g:syntastic_check_on_open = 1
 let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 
 
-"let g:syntastic_always_populate_loc_list = 1
-
+let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 
-"let g:ycm_autoclose_preview_window_after_insertion = 1
-"
 let g:tsuquyomi_completion_preview = 1
 
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_definition_split = 2
 
-let g:dash_map = {'typescript' : 'javascript'}
+let g:dash_map = {'typescript' : ['typescript', 'javascript', 'mongodb', 'express', 'mocha']}
+
+let g:ctrlp_custom_ignore = { 'dir':  'build\|node_modules$' }
 
 "To get airline to show up without splitting
 set laststatus=2
@@ -197,7 +190,7 @@ nnoremap <Leader>f :NERDTreeToggle<Enter>
 
 nnoremap <leader>v :set paste!<Enter>
 
-set mouse=r
+set mouse=a
 
 cnoremap <C-a>  <Home>
 cnoremap <C-b>  <Left>
@@ -276,7 +269,6 @@ nmap <down>  :3wincmd +<cr>
 
 iabbrev mk //alex mark
 command! Code !code %
-command! Mk Ggrep! "//alex mark"
 
 
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
@@ -288,6 +280,7 @@ cabbrev gp Ggrep!
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Search for selected text, forwards or backwards.
+" Allows * to work for highlighted text
 vnoremap <silent> * :<C-U>
 \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
 \gvy/<C-R><C-R>=substitute(
@@ -298,61 +291,4 @@ vnoremap <silent> # :<C-U>
 \gvy?<C-R><C-R>=substitute(
 \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
 \gV:call setreg('"', old_reg, old_regtype)<CR>
-
-
-
-" Highlight whitespace problems.
-" flags is '' to clear highlighting, or is a string to
-" specify what to highlight (one or more characters):
-"   e  whitespace at end of line
-"   i  spaces used for indenting
-"   s  spaces before a tab
-"   t  tabs not at start of line
-function! ShowWhitespace(flags)
-  let bad = ''
-  let pat = []
-  for c in split(a:flags, '\zs')
-    if c == 'e'
-      call add(pat, '\s\+$')
-    elseif c == 'i'
-      call add(pat, '^\t*\zs \+')
-    elseif c == 's'
-      call add(pat, ' \+\ze\t')
-    elseif c == 't'
-      call add(pat, '[^\t]\zs\t\+')
-    else
-      let bad .= c
-    endif
-  endfor
-  if len(pat) > 0
-    let s = join(pat, '\|')
-    exec 'syntax match ExtraWhitespace "'.s.'" containedin=ALL'
-  else
-    syntax clear ExtraWhitespace
-  endif
-  if len(bad) > 0
-    echo 'ShowWhitespace ignored: '.bad
-  endif
-endfunction
-
-function! ToggleShowWhitespace()
-  if !exists('b:ws_show')
-    let b:ws_show = 0
-  endif
-  if !exists('b:ws_flags')
-    let b:ws_flags = 'est'  " default (which whitespace to show)
-  endif
-  let b:ws_show = !b:ws_show
-  if b:ws_show
-    call ShowWhitespace(b:ws_flags)
-  else
-    call ShowWhitespace('')
-  endif
-endfunction
-
-nnoremap <Leader>ws :call ToggleShowWhitespace()<CR>
-highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-"==============
-
-
 
