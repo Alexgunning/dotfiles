@@ -1,51 +1,58 @@
-set nocompatible              " required
-filetype off                  " required 
+"vim-plug setup
+if has("nvim")
+  if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+else
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+endif
 
-" set the runtime path to include Vundle and initialize
-"if has("nvim")
-	"set rtp+=~/.config/nvim/bundle/Vundle.vim "else
-	"set rtp+=~/.vim/bundle/Vundle.vim
-"endif
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-syntax on
-
-let mapleader = "-"
-inoremap jk <ESC>
-vnoremap jk <ESC>
-set nu
-set showcmd
-set wrap!
-set list
+call plug#begin('~/.vim/plugged')
+Plug 'Shougo/vimproc',  { 'do' : 'make -f make_mac.mak' } 
+Plug 'Valloric/YouCompleteMe', { 'do' : './install.py --clang-completer --system-libclang'}
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-syntastic/syntastic'
+Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'rizzatti/dash.vim'
+Plug 'ternjs/tern_for_vim'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-surround'
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
+Plug 'tpope/vim-fugitive'
+Plug 'yssl/QFEnter'
+Plug 'easymotion/vim-easymotion'
+Plug 'ntpeters/vim-better-whitespace'
+call plug#end()
+let g:plug_timeout=900
 
 let g:ycm_server_python_interpreter = '/usr/local/bin/python'
 
-" TODO try changing commneting to saving place go start of line text remove
-" FIX the calling of the commands seems to work fine when executed from
-" command line
-" might not work well woth multiple lines but be nice in normal mode
-" Vimscript file settings ---------------------- {{{
-augroup filetype_vim
-autocmd!
-autocmd FileType vim setlocal foldmethod=marker
-augroup END
-" }}}
+"map leader command
+let mapleader = "-"
+
+"remap jk to escape for insert and visual mode
+inoremap jk <ESC>
+vnoremap jk <ESC>
 
 
+set number
+set showcmd
+set wrap
+set list
+
+"Navigate windows faster
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <C-K> <C-W><C-K>
@@ -58,81 +65,18 @@ set foldlevel=99
 " Enable folding with the spacebar
 nnoremap <space> za
 
-inoremap <C-U> <ESC>viwUea
-"nnoremap <C-U> <ESC>viwUe
-
+"Edit/Source vimrc
 nnoremap <leader>av :edit $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
+"Common misspellings
 iabbrev waht what
 iabbrev tehn then
 iabbrev teh the
 
-
-if has("nvim")
-Plugin 'Shougo/deoplete.nvim'
-"One of these causes startup errors
-
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-"TO DISABLE AUTOCOMPLETE
-let g:deoplete#disable_auto_complete = 1
-"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-" omnifuncs
-augroup omnifuncs
- autocmd!
- autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
- autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
- autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
- autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
- autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup end
-" tern
-"if exists('g:plugs["tern_for_vim"]')
- "let g:tern_show_argument_hints = 'on_hold'
- "let g:tern_show_signature_in_pum = 1
- ""autocmd FileType javascript setlocal omnifunc=tern#Complete
-"endif
-endif
-
-Plugin 'zchee/deoplete-jedi'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'vim-airline/vim-airline'
-"Plugin 'toyamarinyon/vim-swift'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'altercation/vim-colors-solarized'
-"Plugin 'kballard/vim-swift'
-"Plugin 'keith/swift.vim'
-"Plugin 'bumaociyuan/vim-swift'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'rizzatti/dash.vim'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'tpope/vim-surround'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'Shougo/vimproc'
-Plugin 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
-Plugin 'tpope/vim-fugitive'
-Plugin 'yssl/QFEnter'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'ntpeters/vim-better-whitespace'
-
-
-Bundle "icholy/typescript-tools.git"
+"Bundle "icholy/typescript-tools.git"
 au BufRead,BufNewFile *.ts  setlocal filetype=typescript
-
-"if !exists(“g:ycm_semantic_triggers”)
-"let g:ycm_semantic_triggers = {}
-"endif
-"let g:ycm_semantic_triggers[‘typescript’] = [‘.’]
 
 if !exists("g:ycm_semantic_triggers")
 let g:ycm_semantic_triggers = {}
@@ -170,9 +114,9 @@ set background=dark
 "set g:solarized_termcolors=256
 colorscheme solarized
 
+
 if has("nvim")
 " Escape should exit terminal insert mode
-":tnoremap <Esc><Esc> <C-\><C-n>
 :tnoremap jk <C-\><C-n>
 
 " Vterm opens a new vertically-split terminal
@@ -183,15 +127,20 @@ endif
 set splitbelow
 set splitright
 
+"Navigate over wrapped lines
 nmap j gj
 nmap k gk
 
+"Toggle NERDTree opening
 nnoremap <Leader>f :NERDTreeToggle<Enter>
 
+"Set mode to paste mode
 nnoremap <leader>v :set paste!<Enter>
 
+"Use mouse 
 set mouse=a
 
+"Basic emacs keybindings for command mode
 cnoremap <C-a>  <Home>
 cnoremap <C-b>  <Left>
 cnoremap <C-f>  <Right>
@@ -204,10 +153,11 @@ cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g>  <C-c>
 
-"nnoremap <leader>code :!code %<CR> 
-"command! Code !code %:line(".")
+"Open file in VsCode
+"TODO try and figure out how to open on specfic line
 command! Code execute '!code -g %:' . line('.')
 
+"HTML mapping 
 nnoremap <F12>f :exe ':silent !open -a /Applications/Firefox.app %'<CR>
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 nnoremap <F12>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
@@ -226,7 +176,7 @@ set shiftwidth=2    " Indents will have a width of 2
 
 set softtabstop=2   " Sets the number of columns for a TAB
 
-set expandtab       " Expand TABs to spacesj
+set expandtab       " Expand TABs to spaces
 
 set hlsearch
 
@@ -249,6 +199,7 @@ else
   autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 endif
 
+"easily open close quickfix menu
 nnoremap <leader>qf :cclose<Enter>
 nnoremap <leader>of :copen<Enter>
 
@@ -257,6 +208,7 @@ nnoremap <leader>n :cnext<Enter>
 
 nnoremap <leader>das :Dash<Enter>
 
+"Move windows around screen 
 map <leader>h  :wincmd H<cr>
 map <leader>k  :wincmd K<cr>
 map <leader>l  :wincmd L<cr>
