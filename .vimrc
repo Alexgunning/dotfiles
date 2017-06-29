@@ -15,7 +15,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc',  { 'do' : 'make -f make_mac.mak' } 
-Plug 'Valloric/YouCompleteMe', { 'do' : './install.py --clang-completer --system-libclang'}
+Plug 'Valloric/YouCompleteMe', { 'do' : './install.py --clang-completer --system-libclang --tern-completer'}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-syntastic/syntastic'
