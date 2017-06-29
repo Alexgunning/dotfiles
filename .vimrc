@@ -137,8 +137,8 @@ nnoremap <Leader>f :NERDTreeToggle<Enter>
 "Set mode to paste mode
 nnoremap <leader>v :set paste!<Enter>
 
-"Use mouse 
-set mouse=a
+"Disables mouse support but allows copying
+set mouse=r
 
 "Basic emacs keybindings for command mode
 cnoremap <C-a>  <Home>
