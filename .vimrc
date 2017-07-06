@@ -14,19 +14,21 @@ else
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'Shougo/vimproc',  { 'do' : 'make -f make_mac.mak' } 
+Plug 'Shougo/vimproc',  { 'do' : 'make -f make_mac.mak' }
 Plug 'Valloric/YouCompleteMe', { 'do' : './install.py --clang-completer --system-libclang --tern-completer'}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-syntastic/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'flazz/vim-colorschemes'
-Plug 'scrooloose/nerdcommenter'
+Plug 'rakr/vim-one'
+"Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'rizzatti/dash.vim'
-Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
@@ -51,6 +53,23 @@ set number
 set showcmd
 set wrap
 set list
+
+if (empty($TMUX))
+  if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+
+set background=dark
+"set g:solarized_termcolors=256
+colorscheme one
 
 "Navigate windows faster
 nnoremap <C-J> <C-W><C-J>
@@ -107,12 +126,11 @@ let g:dash_map = {'typescript' : ['typescript', 'javascript', 'mongodb', 'expres
 
 let g:ctrlp_custom_ignore = { 'dir':  'build\|node_modules$' }
 
+"Use vim surround to use * as a way to do do c style comments
+let g:surround_42 = "/* \r */"
+
 "To get airline to show up without splitting
 set laststatus=2
-
-set background=dark
-"set g:solarized_termcolors=256
-colorscheme solarized
 
 
 if has("nvim")
