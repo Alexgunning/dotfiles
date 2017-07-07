@@ -36,6 +36,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'yssl/QFEnter'
 Plug 'easymotion/vim-easymotion'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'mxw/vim-jsx'
 call plug#end()
 let g:plug_timeout=900
 
@@ -117,8 +118,9 @@ let g:airline#extensions#whitespace#enabled = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 
-let g:tsuquyomi_completion_preview = 1
+let g:jsx_ext_required = 0
 
+let g:tsuquyomi_completion_preview = 1
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_definition_split = 2
 
