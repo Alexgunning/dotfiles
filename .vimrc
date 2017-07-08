@@ -158,7 +158,7 @@ cnoremap <C-g>  <C-c>
 "TODO try and figure out how to open on specfic line
 command! Code execute '!code -g %:' . line('.')
 
-"HTML mapping 
+"HTML mapping open html in different web browsers
 nnoremap <F12>f :exe ':silent !open -a /Applications/Firefox.app %'<CR>
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 nnoremap <F12>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
