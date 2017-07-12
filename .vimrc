@@ -23,7 +23,6 @@ Plug 'vim-syntastic/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'flazz/vim-colorschemes'
 Plug 'rakr/vim-one'
-"Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'rizzatti/dash.vim'
 Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
@@ -205,18 +204,23 @@ nnoremap <leader>deb :!debug %<Enter>
 nnoremap <leader>s :noh<Enter>
 nnoremap <leader>num :set number!<Enter>
 
+"Typescript mappings
 if has("nvim")
 "Tsuqyuomi commands need to be duplicated to work in neovim"
-  nnoremap <leader>def :TsuquyomiDefinition<Enter>:TsuquyomiDefinition<Enter>
-  nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>:TsuquyomiSignatureHelp<Enter>
-  nnoremap <leader>ref :TsuReferences<Enter>:TsuReferences<Enter>
-  nnoremap <leader>er :TsuGeterr<Enter>:TsuGeterr<Enter>
+  autocmd FileType typescript nnoremap <leader>d :TsuquyomiDefinition<Enter>:TsuquyomiDefinition<Enter>
+  autocmd FileType typescript nnoremap <leader>td :TsuquyomiTypeDefinition<Enter>:TsuquyomiTypeDefinition<Enter>
+  autocmd FileType typescript nnoremap <leader>r :TsuquyomiRenameSymbol<Enter>:TsuquyomiRenameSymbol<Enter>
+  autocmd FileType typescript nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>:TsuquyomiSignatureHelp<Enter>
+  autocmd FileType typescript nnoremap <leader>ref :TsuReferences<Enter>:TsuReferences<Enter>
+  autocmd FileType typescript nnoremap <leader>er :TsuGeterr<Enter>:TsuGeterr<Enter>
   autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
 else
-  nnoremap <leader>def :TsuquyomiDefinition<Enter>
-  nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
-  nnoremap <leader>ref :TsuReferences<Enter>
-  nnoremap <leader>er :TsuGeterr<Enter>
+  autocmd FileType typescript nnoremap <leader>d :TsuquyomiDefinition<Enter>
+  autocmd FileType typescript nnoremap <leader>td :TsuquyomiTypeDefinition<Enter>
+  autocmd FileType typescript nnoremap <leader>r :TsuquyomiRenameSymbol<Enter>
+  autocmd FileType typescript nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
+  autocmd FileType typescript nnoremap <leader>ref :TsuReferences<Enter>
+  autocmd FileType typescript nnoremap <leader>er :TsuGeterr<Enter>
   autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 endif
 
@@ -229,7 +233,7 @@ nnoremap <leader>n :cnext<Enter>
 
 nnoremap <leader>das :Dash<Enter>
 
-"Move windows around screen 
+"Move windows around screen
 map <leader>h  :wincmd H<cr>
 map <leader>k  :wincmd K<cr>
 map <leader>l  :wincmd L<cr>
