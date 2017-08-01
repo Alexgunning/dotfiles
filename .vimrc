@@ -47,7 +47,9 @@ let mapleader = "-"
 
 "remap jk to escape for insert and visual mode
 inoremap jk <ESC>
-vnoremap jk <ESC>
+" vnoremap jk <ESC>
+
+cnoremap checkout :!git checkout -- %
 
 
 set number
@@ -134,6 +136,10 @@ let g:surround_42 = "/* \r */"
 "To get airline to show up without splitting
 set laststatus=2
 
+command! Checkout !git checkout -- %
+"TODO make only current window have read only copy of file
+command! Read view %
+
 
 if has("nvim")
 " Escape should exit terminal insert mode
@@ -209,24 +215,37 @@ if has("nvim")
 "Tsuqyuomi commands need to be duplicated to work in neovim"
   autocmd FileType typescript nnoremap <leader>d :TsuquyomiDefinition<Enter>:TsuquyomiDefinition<Enter>
   autocmd FileType typescript nnoremap <leader>td :TsuquyomiTypeDefinition<Enter>:TsuquyomiTypeDefinition<Enter>
-  autocmd FileType typescript nnoremap <leader>r :TsuquyomiRenameSymbol<Enter>:TsuquyomiRenameSymbol<Enter>
+  autocmd FileType typescript nnoremap <leader>ren :TsuquyomiRenameSymbol<Enter>:TsuquyomiRenameSymbol<Enter>
   autocmd FileType typescript nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>:TsuquyomiSignatureHelp<Enter>
-  autocmd FileType typescript nnoremap <leader>ref :TsuReferences<Enter>:TsuReferences<Enter>
+  autocmd FileType typescript nnoremap <leader>r :TsuReferences<Enter>:TsuReferences<Enter>
   autocmd FileType typescript nnoremap <leader>er :TsuGeterr<Enter>:TsuGeterr<Enter>
   autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
 else
   autocmd FileType typescript nnoremap <leader>d :TsuquyomiDefinition<Enter>
   autocmd FileType typescript nnoremap <leader>td :TsuquyomiTypeDefinition<Enter>
-  autocmd FileType typescript nnoremap <leader>r :TsuquyomiRenameSymbol<Enter>
+  autocmd FileType typescript nnoremap <leader>ren :TsuquyomiRenameSymbol<Enter>
   autocmd FileType typescript nnoremap <leader>sig :TsuquyomiSignatureHelp<Enter>
-  autocmd FileType typescript nnoremap <leader>ref :TsuReferences<Enter>
+  autocmd FileType typescript nnoremap <leader>r :TsuReferences<Enter>
   autocmd FileType typescript nnoremap <leader>er :TsuGeterr<Enter>
   autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 endif
 
+"Javascript tern def mappings
+autocmd FileType javascript nnoremap <leader>d :TernDef<Enter>
+autocmd FileType javascript nnoremap <leader>doc :TernDoc<Enter>
+autocmd FileType javascript nnoremap <leader>td :TernType<Enter>
+autocmd FileType javascript nnoremap <leader>r :TernRefs<Enter>
+autocmd FileType javascript nnoremap <leader>ren :TernRename<Enter>
+
+"TODO REMOVE
 "easily open close quickfix menu
 nnoremap <leader>qf :cclose<Enter>
+"use :ccl intead
 nnoremap <leader>of :copen<Enter>
+"use :ccope intead
+"easily close scratch menu
+nnoremap <leader>pf :pclose<Enter>
+"use :pc intead
 
 nnoremap <leader>p :cprevious<Enter>
 nnoremap <leader>n :cnext<Enter>
