@@ -12,7 +12,6 @@ else
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 endif
-
 call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc',  { 'do' : 'make -f make_mac.mak' }
 Plug 'Valloric/YouCompleteMe', { 'do' : './install.py --clang-completer --system-libclang --tern-completer'}
@@ -132,6 +131,7 @@ let g:ctrlp_custom_ignore = { 'dir':  'build\|node_modules$' }
 
 "Use vim surround to use * as a way to do do c style comments
 let g:surround_42 = "/* \r */"
+let g:surround_36 = "${\r}"
 
 "To get airline to show up without splitting
 set laststatus=2
