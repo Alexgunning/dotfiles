@@ -28,6 +28,7 @@ Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-abolish'
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
@@ -35,11 +36,18 @@ Plug 'tpope/vim-fugitive'
 Plug 'yssl/QFEnter'
 Plug 'easymotion/vim-easymotion'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'sjl/gundo.vim'
 Plug 'mxw/vim-jsx'
 call plug#end()
 let g:plug_timeout=900
 
 let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+
+"Display the undo tree with <leader>u.
+nnoremap <leader>u :GundoToggle<CR>
+
+"Add this line if you are using Python 3.
+let g:gundo_prefer_python3 = 1
 
 "map leader command
 let mapleader = "-"
@@ -51,7 +59,6 @@ inoremap jk <ESC>
 cnoremap checkout :!git checkout -- %
 
 
-set number
 set showcmd
 set wrap
 set list
@@ -90,6 +97,10 @@ nnoremap <space> za
 nnoremap <leader>av :edit $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+nnoremap <leader>c :let @+=@0<cr>
+
+
 
 "Common misspellings
 iabbrev waht what
@@ -206,9 +217,17 @@ set expandtab       " Expand TABs to spaces
 
 set hlsearch
 
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+
 nnoremap <leader>deb :!debug %<Enter>
 nnoremap <leader>s :noh<Enter>
-nnoremap <leader>num :set number!<Enter>
+" nnoremap <leader>num :set number!<Enter>
 
 "Typescript mappings
 if has("nvim")
@@ -258,10 +277,10 @@ map <leader>k  :wincmd K<cr>
 map <leader>l  :wincmd L<cr>
 map <leader>j  :wincmd J<cr>
 
-nmap <left>  :3wincmd ><cr>
-nmap <right> :3wincmd <<cr>
-nmap <up>    :3wincmd -<cr>
-nmap <down>  :3wincmd +<cr>
+nmap <left>  :3wincmd <<cr>
+nmap <right> :3wincmd ><cr>
+nmap <up>    :3wincmd +<cr>
+nmap <down>  :3wincmd -<cr>
 
 iabbrev mk //alex mark
 command! Code !code %
