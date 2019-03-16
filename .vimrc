@@ -1,7 +1,7 @@
 "vim-plug setup
 if has("nvim")
   if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+ .toArray()   silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
@@ -19,8 +19,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-syntastic/syntastic'
-Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
+" Plug 'neomake/neomake'
 Plug 'rakr/vim-one'
 Plug 'scrooloose/nerdtree'
 Plug 'rizzatti/dash.vim'
@@ -33,15 +32,41 @@ Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-db'
 Plug 'yssl/QFEnter'
 Plug 'easymotion/vim-easymotion'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'sjl/gundo.vim'
 Plug 'mxw/vim-jsx'
+Plug 'soft-aesthetic/soft-era-vim'
+Plug 'OmniSharp/omnisharp-vim'
+"COLORS
+Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
+Plug 'srcery-colors/srcery-vim'
 call plug#end()
 let g:plug_timeout=900
 
-let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
+set shortmess=aoOtI
+
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 
 "Display the undo tree with <leader>u.
 nnoremap <leader>u :GundoToggle<CR>
@@ -56,7 +81,8 @@ let mapleader = "-"
 inoremap jk <ESC>
 " vnoremap jk <ESC>
 
-cnoremap checkout :!git checkout -- %
+" cnoremap checkout :!git checkout -- %
+cnoremap mg DB mongodb:RoninServer
 
 
 set showcmd
@@ -78,7 +104,9 @@ endif
 
 set background=dark
 "set g:solarized_termcolors=256
-colorscheme one
+" colorscheme radicalgoodspeed
+" colorscheme flattr
+" colorscheme peachpuff
 
 "Navigate windows faster
 nnoremap <C-J> <C-W><C-J>
@@ -118,9 +146,10 @@ let g:ycm_semantic_triggers['typescript'] = ['.']
 autocmd FileType typescript setlocal completeopt+=menu,preview
 
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
-let g:syntastic_typescript_tsc_args = '--target ES6 --noEmit'
-let g:syntastic_check_on_open = 1
+" let g:syntastic_typescript_checkers = ['tsuquyomi']
+" let g:syntastic_check_on_open = 1
 let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 
 
@@ -129,6 +158,9 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
+let g:tsuquyomi_use_vimproc = 1
+" let g:tsuquyomi_use_local_typescript = 0
+" let g:syntastic_debug = 3
 
 let g:jsx_ext_required = 0
 
@@ -143,6 +175,8 @@ let g:ctrlp_custom_ignore = { 'dir':  'build\|node_modules$' }
 "Use vim surround to use * as a way to do do c style comments
 let g:surround_42 = "/* \r */"
 let g:surround_36 = "${\r}"
+let g:surround_35 = "console.log(\r);"
+let g:surround_38 = "console.log({...\r});"
 
 "To get airline to show up without splitting
 set laststatus=2
@@ -150,6 +184,9 @@ set laststatus=2
 command! Checkout !git checkout -- %
 "TODO make only current window have read only copy of file
 command! Read view %
+
+cabbrev csl set background=light
+cabbrev csd set background=dark
 
 
 if has("nvim")
@@ -172,7 +209,7 @@ nmap k gk
 nnoremap <Leader>f :NERDTreeToggle<Enter>
 
 "Set mode to paste mode
-nnoremap <leader>v :set paste!<Enter>
+" nnoremap <leader>v :set paste!<Enter>
 
 "Disables mouse support but allows copying
 set mouse=r
@@ -293,6 +330,8 @@ cabbrev grep grep!
 cabbrev Ggrep Ggrep!
 cabbrev gp Ggrep!
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+
 
 " Search for selected text, forwards or backwards.
 " Allows * to work for highlighted text
